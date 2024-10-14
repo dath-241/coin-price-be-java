@@ -60,7 +60,7 @@ public class SseHelper {
                                             WebSocketConfig webSocketConfig) {
         Runnable sendPriceTask = () -> {
             try {
-                emitter.send(priceDataMap.values());
+                emitter.send(priceDataMap);
             } catch (IOException e) {
                 emitter.completeWithError(e);
             }
@@ -74,7 +74,7 @@ public class SseHelper {
                                                   WebSocketConfig webSocketConfig) {
         Runnable sendFundingRateTask = () -> {
             try {
-                emitter.send(fundingRateDataMap.values());
+                emitter.send(fundingRateDataMap);
             } catch (IOException e) {
                 emitter.completeWithError(e);
             }
@@ -89,7 +89,7 @@ public class SseHelper {
                                             WebSocketConfig webSocketConfig) {
         Runnable sendKlineTask = () -> {
             try {
-                emitter.send(klineDataMap.values());
+                emitter.send(klineDataMap);
             } catch (IOException e) {
                 emitter.completeWithError(e);
             }

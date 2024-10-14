@@ -49,6 +49,7 @@ public class SpotPriceDataService implements IPriceDataService {
             if (emitter != null) {
                 try {
                     emitter.send(SseEmitter.event().name("price-alert").data("spot price condition met for " + symbol));
+
                 } catch (IOException e) {
                     emitter.completeWithError(e);
                 }
