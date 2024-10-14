@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public abstract class SnoozeCondition {
     @Id
     private  boolean oneTime;
-    private  boolean onceInDuration;
+
     private  boolean repeat;
     private  int repeatTimes; // Số lần lặp
     private  LocalDateTime snoozeStartTime;

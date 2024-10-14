@@ -10,11 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @Document(collection = "spot_price_snooze")
 public class SpotPriceSnooze extends SnoozeCondition {
-    private  boolean oneTime;
-    private  boolean onceInDuration;
-    private  boolean repeat;
-    private  int repeatTimes; // Số lần lặp
-    private LocalDateTime snoozeStartTime;
-    private  LocalDateTime snoozeEndTime;
-    private  LocalDateTime specificTime;
+
+    private boolean onceInDuration;
 }
+
