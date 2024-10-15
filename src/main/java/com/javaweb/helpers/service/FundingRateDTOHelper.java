@@ -1,4 +1,4 @@
-package com.javaweb.helpers.service;
+package com.javaweb.helpers.Service;
 
 import com.javaweb.dto.FundingRateDTO;
 

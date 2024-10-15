@@ -21,13 +21,6 @@ public class TestController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/findId")
-    public Optional<userData> findId(@RequestBody userData user){
-        System.out.println(user);
-
-        return userRepository.findById(user.getId());
-    }
-
     @GetMapping("/findUser")
     public userData findAll(@RequestBody userData user){
         System.out.println(user);

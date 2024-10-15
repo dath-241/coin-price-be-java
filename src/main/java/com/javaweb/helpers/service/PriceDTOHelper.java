@@ -1,12 +1,14 @@
-package com.javaweb.helpers.service;
+package com.javaweb.helpers.Service;
 
 import com.javaweb.dto.PriceDTO;
 
 public class PriceDTOHelper {
-    public static PriceDTO createPriceDTO(String symbol, String price, String eventTime) {
+
+    // Hàm để tạo đối tượng PriceDTO từ các tham số đầu vào
+    public static PriceDTO createPriceDTO(String eventTime, String symbol, String price) {
         return new PriceDTO.Builder()
-                .symbol(symbol)
                 .eventTime(eventTime)
+                .symbol(symbol)
                 .price(price)
                 .build();
     }
