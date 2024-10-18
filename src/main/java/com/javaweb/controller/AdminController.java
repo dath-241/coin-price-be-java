@@ -2,6 +2,7 @@ package com.javaweb.controller;
 
 import com.javaweb.model.mongo_entity.userData;
 import com.javaweb.repository.UserRepository;
+import com.javaweb.service.discordBot.entryBot;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,25 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
+    private entryBot entryBot;
+
+    @Autowired
     UserRepository userRepository;
 
     @DeleteMapping("/removeUserByUsername")
-    public ResponseEntity<?> getUser(@RequestParam String username) {
-        userData userData = userRepository.findByUsername(username);
-        if(userData == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
+    public ResponseEntity<?> getUser(@RequestParam List<String> username) {
+        entryBot.setImg_url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSll683Wj2BKonhIpgn--paTzycD06XnvqblQ&s");
+        entryBot.setUsername("Admin Bot");
 
-        userRepository.deleteByUsername(userData.getUsername());
+        for (String user : username) {
+            userData userData = userRepository.findByUsername(user);
+            if (userData == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User %s not found", user));
+            }
+
+            userRepository.deleteByUsername(userData.getUsername());
+            entryBot.sendMessage(String.format("Admin vừa xóa user ***%s*** ra khỏi hệ thống", userData.getUsername()));
+        }
 
         return new ResponseEntity<>(
                 new Responses(

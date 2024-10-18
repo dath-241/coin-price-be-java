@@ -5,30 +5,32 @@ import com.javaweb.model.RegisterRequest;
 import com.javaweb.model.mongo_entity.userData;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.CreateToken;
+import com.javaweb.service.discordBot.entryBot;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.servlet.http.Cookie;
-//import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
-//import java.util.List;
-
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
+    entryBot entryBot;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Value("${spring.boot.env.DISCORD_WEBHOOK_ENTRY}")
+    private String webhook;
 
     @GetMapping("/refreshToken")
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -64,7 +66,7 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse res, HttpServletRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse res, HttpServletRequest request) throws IOException {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
 
@@ -80,6 +82,8 @@ public class AuthController {
 
                 userRepository.save(user);
             }
+
+            entryBot.sendMessage(String.format("user **%s** vừa đăng nhập.", username));
 
             return new ResponseEntity<>(
                     new Responses(
@@ -111,6 +115,9 @@ public class AuthController {
 
             LoginFunc.setCookie(user.getUsername(), user.getPassword(), res);
             userRepository.save(user);
+
+            entryBot.sendMessage(String.format("Chúc mừng user **%s** vừa đăng kí tài khoản thành công!.", user.getUsername()));
+
             return new ResponseEntity<>(
                     new Responses(
                             new Date(),
@@ -214,6 +221,10 @@ public class AuthController {
             }
         }
         return null;
+    }
+
+    public void sendMessage(String message) throws IOException {
+
     }
 
     @Data
