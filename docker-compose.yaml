@@ -5,7 +5,7 @@ services:
     env_file:
       - .env
     image: lmao1415/dath_cnpm
-    
+
   static-server:
     image: nginx:latest
     ports:
