@@ -3,54 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Landing Page</title>
+    <title>Coin Price BE - Java</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
-    <nav>
-        <div class="logo">MyBrand</div>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
-    <div class="hero">
-        <h1>Welcome to Our Website</h1>
-        <p>We provide the best solutions for your business.</p>
-        <a href="#" class="cta-btn">Get Started</a>
-    </div>
+    <h1>Coin Price Backend Project</h1>
+    <p>Ứng dụng backend xử lý dữ liệu giá tiền mã hóa</p>
 </header>
 
-<section class="about">
-    <h2>About Us</h2>
-    <p>We are a leading company in providing high-quality solutions to businesses worldwide. Our team of experts ensures you get the best service.</p>
+<section class="project-info">
+    <h2>Thông tin dự án</h2>
+    <ul>
+        <li><strong>Ngôn ngữ:</strong> Java</li>
+        <li><strong>Cơ sở dữ liệu:</strong> MongoDB</li>
+        <li><strong>Công nghệ:</strong> Spring Boot</li>
+    </ul>
 </section>
 
-<section class="services">
-    <h2>Our Services</h2>
-    <div class="service-cards">
-        <div class="card">
-            <h3>Web Development</h3>
-            <p>We create stunning websites tailored to your needs.</p>
-        </div>
-        <div class="card">
-            <h3>SEO Optimization</h3>
-            <p>Boost your website's visibility on search engines with our SEO services.</p>
-        </div>
-        <div class="card">
-            <h3>Marketing</h3>
-            <p>Our marketing strategies will help you reach a larger audience.</p>
-        </div>
-    </div>
+<section class="dependencies">
+    <h2>Thư viện sử dụng và tác dụng</h2>
+    <ul>
+        <li><strong>Spring Boot Starter Web:</strong> Xây dựng các API RESTful cho ứng dụng web.</li>
+        <li><strong>Spring Boot Starter Data JPA:</strong> Hỗ trợ thao tác với cơ sở dữ liệu thông qua JPA (Java Persistence API).</li>
+        <li><strong>Spring Boot Starter Security:</strong> Tích hợp bảo mật cho các API, bao gồm xác thực và phân quyền.</li>
+        <li><strong>Caffeine Cache Management:</strong> Quản lý bộ nhớ đệm (cache) hiệu quả cho các yêu cầu dữ liệu.</li>
+        <li><strong>Spring Boot Starter WebSocket:</strong> Hỗ trợ giao tiếp thời gian thực với WebSocket, giúp cập nhật dữ liệu nhanh chóng.</li>
+        <li><strong>Spring Boot Starter Data MongoDB:</strong> Tương tác với cơ sở dữ liệu MongoDB, cho phép lưu trữ và truy xuất dữ liệu.</li>
+        <li><strong>Lombok:</strong> Giảm thiểu mã boilerplate bằng cách tự động sinh ra getter, setter và các phương thức khác.</li>
+        <li><strong>Nimbus JOSE + JWT:</strong> Hỗ trợ xử lý mã hóa và bảo mật với JSON Web Tokens (JWT) cho các yêu cầu xác thực.</li>
+        <li><strong>Swagger UI:</strong> Tạo tài liệu API trực quan và dễ dàng kiểm thử các API trực tiếp từ giao diện web.</li>
+        <li><strong>Java Dotenv:</strong> Quản lý các biến môi trường trong ứng dụng Java, giúp dễ dàng cấu hình các thông tin nhạy cảm.</li>
+    </ul>
 </section>
-
-<footer>
-    <p>© 2024 MyBrand. All Rights Reserved.</p>
-</footer>
 </body>
 </html>
