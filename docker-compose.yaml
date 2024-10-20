@@ -5,9 +5,7 @@ services:
     env_file:
       - .env
     image: lmao1415/dath_cnpm
-    volumes:
-      - ./keystore.p12:/path/to/keystore.p12
-
+    
   static-server:
     image: nginx:latest
     ports:
