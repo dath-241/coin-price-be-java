@@ -1,0 +1,14 @@
+services:
+  spring-boot-app:
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    image: lmao1415/dath_cnpm
+
+  static-server:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - ./docs:/usr/share/nginx/html
