@@ -44,10 +44,10 @@ jobs:
           echo TELEGRAM_BOT_TOKEN=${{secrets.TELEGRAM_BOT_TOKEN}}     >> .env
           echo TELEGRAM_CHAT_ID=${{secrets.TELEGRAM_CHAT_ID}}         >> .env
           
-          echo email=${{email}} >> .env
-          echo password_for_email=${{secrets.password_for_email}} >> .env
+          echo email=${{EMAIL}} >> .env
+          echo password_for_email=${{secrets.PASSWORD_FOR_EMAIL}} >> .env
           
-          echo adminToken=${{secrets.adminToken}} >> .env
+          echo adminToken=${{secrets.ADMINTOKEN}} >> .env
 
           sudo docker compose down
 
