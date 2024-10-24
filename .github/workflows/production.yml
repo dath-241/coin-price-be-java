@@ -29,7 +29,6 @@ jobs:
             cd server
             touch .env
 
-            &&
             echo MONGO_DB_URI=${{ secrets.MONGO_DB_URI }} >> .env 
             echo MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }} >> .env 
             echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env 
