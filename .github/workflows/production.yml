@@ -37,18 +37,18 @@ jobs:
           
           touch .env
           
-          echo 'MONGO_DB_URI=${{secrets.MONGO_DB_URI}}' >> .env
-          echo 'MONGO_DB_NAME=${{secrets.MONGO_DB_NAME}}' >> .env
-          echo 'JWT_SECRET=${secrets.JWT_SECRET}}' >> .env
+          echo MONGO_DB_URI=${{secrets.MONGO_DB_URI}}= >> .env
+          echo MONGO_DB_NAME=${{secrets.MONGO_DB_NAME}} >> .env
+          echo JWT_SECRET=${{secrets.JWT_SECRET}} >> .env
           
-          echo 'TELEGRAM_WEBHOOK_URL=${{secrets.TELEGRAM_WEBHOOK_URL}}' >> .env
-          echo 'TELEGRAM_BOT_TOKEN=${{secrets.TELEGRAM_BOT_TOKEN}}' >> .env
-          echo 'TELEGRAM_CHAT_ID=${{secrets.TELEGRAM_CHAT_ID}}' >> .env
+          echo TELEGRAM_WEBHOOK_URL=${{secrets.TELEGRAM_WEBHOOK_URL}} >> .env
+          echo TELEGRAM_BOT_TOKEN=${{secrets.TELEGRAM_BOT_TOKEN}} >> .env
+          echo TELEGRAM_CHAT_ID=${{secrets.TELEGRAM_CHAT_ID}} >> .env
           
-          echo 'email=${{email}' >> .env
-          echo 'password_for_email=${{secrets.password_for_email}}' >> .env
+          echo email=${{email}} >> .env
+          echo password_for_email=${{secrets.password_for_email}} >> .env
           
-          echo 'adminToken=${{secrets.adminToken}}' >> .env
+          echo adminToken=${{secrets.adminToken}} >> .env
 
           sudo docker compose down
 
