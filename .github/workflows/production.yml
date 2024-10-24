@@ -21,11 +21,12 @@ jobs:
           ls -a
 
   deploy:
-    environment:
-      name: production
-      url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    environment: production
     runs-on: self-hosted
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Deploy to VPS
         run: |
           rm -rf server 2>/dev/null || true
