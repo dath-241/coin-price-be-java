@@ -9,14 +9,14 @@ jobs:
   notify:
     runs-on: self-hosted
 
-    steps:
+    # steps:
       # - name: Gửi thông báo đến Discord
       #   run: |
       #     curl -X POST -H "Content-Type: application/json" \
       #     -d '{"content": "@everyone```Phát hiện Pull Request, trên nhánh Production! ```"}' \
       #     https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
 
-  deploy:
+  build:
     environment: production
     runs-on: self-hosted
     steps:
@@ -27,10 +27,14 @@ jobs:
         run: |
           rm -rf server 2>/dev/null || true
           sudo docker rmi $(docker images -a -q) 2>dev>null || true
-        
+
+      - name: Clone Production về
+        run: |
           git clone --branch Production https://github.com/dath-241/coin-price-be-java.git server
           cd server
-          
+
+      - name: Tạo file env
+        run: |
           touch .env
           
           echo MONGO_DB_URI=${{secrets.MONGO_DB_URI}}   >> .env
@@ -48,6 +52,8 @@ jobs:
 
           sudo docker compose down
 
+      - name: Chạy server
+        run: |
           tmux kill-session -t mysession 2>/dev/null || true &&
           tmux new-session -d -s mysession 'sudo docker compose up'
           
