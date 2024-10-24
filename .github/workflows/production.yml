@@ -21,10 +21,6 @@ jobs:
     environment: production
     runs-on: self-hosted
     steps:        
-      - name: Deploy to VPS
-        run: |
-          sudo docker rmi $(docker images -a -q) 2>dev>null || true          
-
       - name: Deploy Trên server
         run: |
           sudo apt-get install -y sshpass
@@ -44,6 +40,11 @@ jobs:
             echo email=${{ secrets.EMAIL }} >> .env
             echo password_for_email=${{ secrets.password_for_email }} >> .env
             echo adminToken=${{ secrets.adminToken }} >> .env
+
+            echo "y" | docker container prune
+            sudo docker rmi $(docker images -a -q) 2>dev>null || true  
+            sudo docker compose down
+            sudo docker compose up
           "
           
       # - name: Thông Báo khởi động sv
