@@ -6,9 +6,8 @@ on:
       - Production
 
 jobs:
-  notify:
-    runs-on: self-hosted
-
+  # notify:
+  #   runs-on: self-hosted
     # steps:
       # - name: Gửi thông báo đến Discord
       #   run: |
