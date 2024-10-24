@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt-get install -y sshpass
 
-          sshpass -p ${{ secrets.VPS_PASSWORD }} ssh -o StrictHostKeyChecking=no root${{ secrets.VPS_IP }} "
+          sshpass -p ${{ secrets.VPS_PASSWORD }} ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_IP }} "
             rm -rf server 2>/dev/null || true
             git clone --branch Production https://github.com/dath-241/coin-price-be-java.git server
             cd server
