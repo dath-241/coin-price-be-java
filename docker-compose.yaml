@@ -12,3 +12,10 @@ services:
       - "8081:80"
     volumes:
       - ./docs:/usr/share/nginx/html
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    environment:
+      SWAGGER_JSON: /docs/document.yaml
