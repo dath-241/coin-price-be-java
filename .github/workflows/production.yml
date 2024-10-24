@@ -27,41 +27,33 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Deploy to VPS
-        env:
-          VPS_USER: root
-          VPS_IP: ${{ secrets.VPS_IP }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sudo apt-get install -y sshpass
-          
-          sshpass -p $VPS_PASSWORD ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP "
+          rm -rf server 2>/dev/null || true
+        
           git clone --branch Production https://github.com/dath-241/coin-price-be-java.git server
           cd server
           
-          # ========================= Thông tin nhạy cảm =============================
           touch .env
           
-          echo 'MONGO_DB_URI=${{ secrets.MONGO_DB_URI }}' >> .env
-          echo 'MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }}' >> .env
-          echo 'JWT_SECRET=${{ secrets.JWT_SECRET }}' >> .env
+          echo 'MONGO_DB_URI=${MONGO_DB_URI}' >> .env
+          echo 'MONGO_DB_NAME=${MONGO_DB_NAME}' >> .env
+          echo 'JWT_SECRET=${JWT_SECRET}' >> .env
           
-          echo 'TELEGRAM_WEBHOOK_URL=${{ secrets.TELEGRAM_WEBHOOK_URL }}' >> .env
-          echo 'TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}' >> .env
-          echo 'TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}' >> .env
+          echo 'TELEGRAM_WEBHOOK_URL=${TELEGRAM_WEBHOOK_URL}' >> .env
+          echo 'TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}' >> .env
+          echo 'TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}' >> .env
           
-          echo 'email=${{ secrets.email }}' >> .env
-          echo 'password_for_email=${{ secrets.password_for_email }}' >> .env
+          echo 'email=${email}' >> .env
+          echo 'password_for_email=${password_for_email}' >> .env
           
-          echo 'adminToken=${{ secrets.adminToken }}' >> .env
-          # =======================================================
-          
+          echo 'adminToken=${adminToken}' >> .env
+          " MONGO_DB_URI=${{ secrets.MONGO_DB_URI }} MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }} JWT_SECRET=${{ secrets.JWT_SECRET }} TELEGRAM_WEBHOOK_URL=${{ secrets.TELEGRAM_WEBHOOK_URL }} TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }} email=${{ secrets.email }} password_for_email=${{ secrets.password_for_email }} adminToken=${{ secrets.adminToken }}
+
           sudo docker compose down
-          sudo docker rmi lmao1415/dath_cnpm
-          # Tạo mới hoặc kết nối tới một phiên tmux
+
           tmux kill-session -t mysession 2>/dev/null || true &&
           tmux new-session -d -s mysession 'sudo docker compose up'
-          "
-
+          
       - name: Thông Báo khởi động sv
         run: |
           curl -X POST -H "Content-Type: application/json" -d '{"content": "```Server đã khởi động thành công!```"}' https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
