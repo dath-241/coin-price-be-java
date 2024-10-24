@@ -6,14 +6,14 @@ on:
       - Production
 
 jobs:
-  # notify:
-  #   runs-on: self-hosted
-    # steps:
-      # - name: Gửi thông báo đến Discord
-      #   run: |
-      #     curl -X POST -H "Content-Type: application/json" \
-      #     -d '{"content": "@everyone```Phát hiện Pull Request, trên nhánh Production! ```"}' \
-      #     https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
+  notify:
+    runs-on: self-hosted
+    steps:
+      - name: Gửi thông báo đến Discord
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "@everyone```Phát hiện Pull Request, trên nhánh Production! ```"}' \
+          https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
 
   build:
     environment: production
@@ -53,6 +53,6 @@ jobs:
           tmux kill-session -t mysession 2>/dev/null || true &&
           tmux new-session -d -s mysession 'sudo docker compose up'
           
-      # - name: Thông Báo khởi động sv
-      #   run: |
-      #     curl -X POST -H "Content-Type: application/json" -d '{"content": "```Server đã khởi động thành công!```"}' https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
+      - name: Thông Báo khởi động sv
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{"content": "```Server đã khởi động thành công!```"}' https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
