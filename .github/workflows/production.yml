@@ -4,56 +4,48 @@ on:
   push:
     branches:
       - Production
+    paths-ignore:
+      - .github/workflows/**
 
 jobs:
-  notify:
-    runs-on: self-hosted
-    steps:
-      - name: Gửi thông báo đến Discord
-        run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "@everyone```Phát hiện Pull Request, trên nhánh Production! ```"}' \
-          https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
+  # notify:
+    # runs-on: self-hosted
+    # steps:
+    #   - name: Gửi thông báo đến Discord
+    #     run: |
+    #       curl -X POST -H "Content-Type: application/json" \
+    #       -d '{"content": "@everyone```Phát hiện Pull Request, trên nhánh Production! ```"}' \
+    #       https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
 
   build:
     environment: production
     runs-on: self-hosted
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
+    steps:        
       - name: Deploy to VPS
         run: |
-          rm -rf server 2>/dev/null || true
-          sudo docker rmi $(docker images -a -q) 2>dev>null || true
+          sudo docker rmi $(docker images -a -q) 2>dev>null || true          
 
-      - name: Clone Production về
+      - name: Deploy Trên server
         run: |
-          git clone --branch Production https://github.com/dath-241/coin-price-be-java.git server
-          cd server
-
-      - name: Tạo file env
-        run: |
-          cd server
-          touch .env
+          sudo apt-get install -y sshpass
           
-          echo "MONGO_DB_URI=${{ secrets.MONGO_DB_URI }}" >> .env
-          echo "MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }}" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          echo "TELEGRAM_WEBHOOK_URL=${{ secrets.TELEGRAM_WEBHOOK_URL }}" >> .env
-          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
-          echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> .env
-          echo "email=${{ secrets.EMAIL }}" >> .env
-          echo "password_for_email=${{ secrets.password_for_email }}" >> .env
-          echo "adminToken=${{ secrets.adminToken }}" >> .env
-
-          sudo docker compose down
-
-      - name: Chạy server
-        run: |
-          tmux kill-session -t mysession 2>/dev/null || true &&
-          tmux new-session -d -s mysession 'sudo docker compose up'
+          sshpass -p ${{ secrets.VPS_IP }} ssh -o StrictHostKeyChecking=no root${{ secrets.VPS_PASSWORD }} "
+            rm -rf server 2>/dev/null || true
+            git clone --branch Production https://github.com/dath-241/coin-price-be-java.git server
+            cd server
+            touch .env
+            
+            echo MONGO_DB_URI=${{ secrets.MONGO_DB_URI }} >> .env
+            echo MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }} >> .env
+            echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+            echo "TELEGRAM_WEBHOOK_URL=${{ secrets.TELEGRAM_WEBHOOK_URL }} >> .env
+            echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
+            echo TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }} >> .env
+            echo email=${{ secrets.EMAIL }} >> .env
+            echo password_for_email=${{ secrets.password_for_email }} >> .env
+            echo adminToken=${{ secrets.adminToken }} >> .env
+          "
           
-      - name: Thông Báo khởi động sv
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d '{"content": "```Server đã khởi động thành công!```"}' https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
+      # - name: Thông Báo khởi động sv
+      #   run: |
+      #     curl -X POST -H "Content-Type: application/json" -d '{"content": "```Server đã khởi động thành công!```"}' https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
