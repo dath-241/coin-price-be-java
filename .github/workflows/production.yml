@@ -34,6 +34,7 @@ jobs:
 
       - name: Tạo file env
         run: |
+          cd server
           touch .env
           
           echo "MONGO_DB_URI=${{ secrets.MONGO_DB_URI }}" >> .env
