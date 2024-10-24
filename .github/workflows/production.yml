@@ -41,7 +41,7 @@ jobs:
             echo password_for_email=${{ secrets.password_for_email }} >> .env
             echo adminToken=${{ secrets.adminToken }} >> .env
 
-            echo "y" | sudo docker container prune
+            echo 'y' | sudo docker container prune
             sudo docker rmi $(docker images -a -q) 2>dev>null || true  
             sudo docker compose down
 
