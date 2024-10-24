@@ -31,7 +31,7 @@ info:
       - Version: `2.4.4`
       - Scope: `provided`
 servers:
-  - url: http://34.142.140.64
+  - url: http://34.87.189.14/
 tags:
   - name: auth-controller
     description: Xác thực người dùng. Tạo tài khoản, đăng nhập, đăng ký, đăng xuất.
