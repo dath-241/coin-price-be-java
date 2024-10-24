@@ -44,7 +44,7 @@ jobs:
           echo TELEGRAM_BOT_TOKEN=${{secrets.TELEGRAM_BOT_TOKEN}}     >> .env
           echo TELEGRAM_CHAT_ID=${{secrets.TELEGRAM_CHAT_ID}}         >> .env
           
-          echo email=${{EMAIL}} >> .env
+          echo email=${{secrets.EMAIL}} >> .env
           echo password_for_email=${{secrets.PASSWORD_FOR_EMAIL}} >> .env
           
           echo adminToken=${{secrets.ADMINTOKEN}} >> .env
