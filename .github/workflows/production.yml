@@ -1,12 +1,8 @@
 name: Production change
 
 on:
-  push:
-    branches:
-      - Production
-    paths-ignore:
-      - .github/workflows/**
-      - .gitignore
+  schedule:
+  - cron: '0 0 * * *'
 
 jobs:
   notify:
