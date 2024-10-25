@@ -23,6 +23,8 @@ jobs:
       - name: Deploy Trên server
         run: |
           sshpass -p ${{ secrets.VPS_PASSWORD }} ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_IP }} "
+            ls -a
+            
             cd server
             touch .env
 
