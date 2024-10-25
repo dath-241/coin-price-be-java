@@ -5,16 +5,19 @@ on:
     - cron: '0 0 * * *'
   push:
     branches: [Production]
+    paths-ignore:
+      - hehe
+      # - .github/workflows/**
 
 jobs:
-  # notify:
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Gửi thông báo đến Discord
-  #       run: |
-  #         curl -X POST -H "Content-Type: application/json" \
-  #         -d '{"content": "```Phát hiện Pull Request, trên nhánh Production! ```"}' \
-  #         https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
+  notify:
+    runs-on: self-hosted
+    steps:
+      - name: Gửi thông báo đến Discord
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "```Phát hiện Pull Request, trên nhánh Production! ```"}' \
+          https://discord.com/api/webhooks/1297132713119191121/B72OrNxwgv1-l5svlDvzUzIWLhtnlmnb4xoPH9BqoX6vG655uPK-vKirbAvmGIjHgt3R
 
   build:
     environment: production
@@ -23,9 +26,9 @@ jobs:
       - name: Deploy Trên server
         run: |
           sshpass -p ${{ secrets.VPS_PASSWORD }} ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_IP }} "
-            ls -a | xargs echo
-            
             cd server
+            git pull
+            > .env
             touch .env
 
             echo 'MONGO_DB_URI=${{ secrets.MONGO_DB_URI }}' >> .env 
