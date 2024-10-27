@@ -75,7 +75,7 @@ paths:
                     example: Unauthorized
 
   /auth/login:
-    get:
+    put:
       tags:
         - auth-controller
       summary: Đăng nhập
@@ -102,7 +102,7 @@ paths:
                 $ref: "#/components/schemas/LoginFail"
  
   /auth/loginWithEmail:
-    get:
+    put:
       tags:
         - auth-controller
       summary: Đăng nhập bằng email
