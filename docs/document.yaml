@@ -31,7 +31,7 @@ info:
       - Version: `2.4.4`
       - Scope: `provided`
 servers:
-  - url: http://34.87.189.14/
+  - url: http://104.214.171.0/
 tags:
   - name: auth-controller
     description: Xác thực người dùng. Tạo tài khoản, đăng nhập, đăng ký, đăng xuất.
@@ -75,7 +75,7 @@ paths:
                     example: Unauthorized
 
   /auth/login:
-    put:
+    get:
       tags:
         - auth-controller
       summary: Đăng nhập
@@ -102,7 +102,7 @@ paths:
                 $ref: "#/components/schemas/LoginFail"
  
   /auth/loginWithEmail:
-    put:
+    get:
       tags:
         - auth-controller
       summary: Đăng nhập bằng email
@@ -206,8 +206,110 @@ paths:
                     type: string
                     example: 200
 
+  /auth/forgotPassword:
+    get:
+      tags:
+        - auth-controller
+      summary: Quên mật khẩu
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema: 
+            type: string
+            example: username
+      responses:
+        "200": 
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Gửi email thành công, check thư tại, toan123@gmail.com
+                  status:
+                    type: string
+                    example: 200
+        "401":
+          description: Thất bại!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonFail401"
+        "404":
+          description: Thất bại!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Không có user này
+                  status:
+                    type: 
+                    example: 404
+  
+  /auth/resetPassword:
+    put:  
+      tags:
+        - auth-controller
+      summary: Đặt lại mật khẩu
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema: 
+            type: string
+            example: test123@gmail.com
+        - name: otpCode 
+          in: query
+          required: true
+          schema: 
+            type: string
+            example: 123
+      requestBody:
+        description: Nhập mật khẩu mới!
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                newPassword:
+                  type: string
+                  example: toan123456
+        required: true
+      responses:
+        "200":  
+          description: Cài lại mật khẩu thành công
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:  
+                  message:
+                    type: string
+                    example: Đổi mật khẩu thành công, vui lòng đăng nhập lại.
+                  status: 
+                    type: string
+                    example: 200
+        "400":
+          description: Sai mã otp
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example:
+                  status: 
+                    type: string
+                    example:
+        
 
-
+    
   /api/get-spot-price:
     get:
       tags:
@@ -578,7 +680,7 @@ components:
           example: 404 Not Found
         status:
           type: string
-          example: 500
+          example: 404
     CommonFail403:
       type: object
       properties:
@@ -591,3 +693,4 @@ components:
         status:
           type: string
           example: 403
+
