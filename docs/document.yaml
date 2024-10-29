@@ -39,6 +39,12 @@ tags:
     description: Dữ liệu thị trường coin.
   - name: kline-controller
     description: Giá theo Kline
+  - name: indicator-controller
+    description: Lấy chỉ báo kỹ thuật.
+  - name: user-indicators-controller
+    description: Cho phép người dùng tự code như plugin định nghĩa lại chỉ báo kỹ thuật.
+  - name: trigger-condition-controller
+    description: Hỗ trợ cảnh báo giá, trigger khi giá đạt các điều kiện.
 paths:
   /auth/register:
     post:
@@ -307,8 +313,6 @@ paths:
                   status: 
                     type: string
                     example:
-        
-
     
   /api/get-spot-price:
     get:
@@ -588,6 +592,224 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CommonFail404"
+
+  /api/vip3/indicators:
+    get: 
+      tags:
+        - indicator-controller
+      summary: Lấy chỉ báo kỹ thuật theo các phương thức có sẵn.
+      parameters:
+        - name: symbols
+          in: query
+          required: true
+          description: List of symbols to fetch the spot price for (e.g., BTC, ETH)
+          schema:
+            type: array
+            items:
+              type: string
+              example: BTCUSDT
+        - name: indicators
+          in: query
+          required: true
+          description: List of indicators (e.g., EMA, MA, BOLL )
+          schema: 
+            type: array
+            items:
+              type: string
+              example: EMA 
+        - name: days
+          in: query
+          required: false
+          description: "Default value: 1" 
+          schema: 
+            type: number
+            format: int32
+            example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  solana:
+                    type: object
+                    properties:
+                      symbol:
+                        type: string
+                        example: solana 
+                      values:
+                        type: object
+                        properties:
+                          MA: 
+                            type: string
+                            example: "161.4869783251875"
+                          EMA: 
+                            type: string
+                            example: "160.35706839198681"
+                      eventTime:
+                        type: string
+                        example: "2024-10-25 16:31:32"
+        "401":
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail401"
+        "403":
+          description: Bị chặn
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail403"
+        "404":
+          description: Not Found (Symbols or Indicator not Found)
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail404"
+        "500":
+          description: Lỗi khi thực thi script người dùng
+          content:  
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 500
+                  error:
+                    type: string
+                    example: Internal Server Error
+                  message:
+                    type: string
+                    example: Lỗi khi thực thi script người dùng
+              
+  /api/vip3/user-indicators:
+    post:
+      tags:
+        - user-indicators-controller
+      requestBody:
+        description: \\\n là xuống dòng
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: test123
+                code: 
+                  type: string
+                  example: def total = 0 \n for (int i = 0; i < size; i++) {\n total += prices[i] * time[i]\n}\n ILOVEU = total
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Đã thêm indicator ILOVEU thành công!
+                  status:
+                    type: string
+                    example: "200"
+        "401":
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail401"
+        "403":
+          description: Bị chặn
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail403"
+        "500":
+          description: Lỗi cú pháp
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 500
+                  error:
+                    type: string
+                    example: Internal Server Error
+                  message:
+                    type: string
+                    example: "Lỗi cú pháp trong mã Groovy: startup failed:\r\nScript1.groovy: 1: unexpected token: def @ line 1, column 1.\r\n def for = 10 \r\n ^\r\n\r\n1 error\r\n"
+            
+  /api/vip2/get/alerts:
+    get: 
+      tags:
+        - trigger-condition-controller
+      summary: thông báo
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: hehe
+        "401":
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail401"
+        "403":
+          description: Bị chặn
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail403"
+      
+  /api/vip2/delete/{symbol}:
+    delete:
+      tags:
+        - trigger-condition-controller
+      summary: Xóa cảnh báo cho coin.
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          description: Symbol will be deleted (e.g., bitcoin)
+          schema:
+            type: string
+            example: bitcoin
+        - name: triggerType
+          in: query
+          required: true
+          description: Type of Trigger 
+          schema: 
+            type: string
+            example: Cần update
+      responses:
+        "401":
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail401"
+        "403":
+          description: Bị chặn
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail403"
+
 components:
   schemas:
     RegisterBody:
