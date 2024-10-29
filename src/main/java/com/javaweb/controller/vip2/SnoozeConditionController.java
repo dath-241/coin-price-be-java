@@ -60,6 +60,12 @@ public class SnoozeConditionController {
                     IndicatorSnoozeCondition indicatorSnoozeCondition = snoozeMapHelper.mapToIndicatorSnoozeCondition(snoozeConditionRequest, username);
                     indicatorSnoozeConditionService.createSnoozeCondition(indicatorSnoozeCondition, username);
                     break;
+                case "interval":
+                    IntervalSnoozeCondition intervalSnoozeCondition = snoozeMapHelper.mapToIntervalSnoozeCondition(snoozeConditionRequest, username);
+                    intervalSnoozeConditionService.createSnoozeCondition(intervalSnoozeCondition, username);
+                    break;
+                    
+
 
                 default:
                     return ResponseEntity.badRequest().body("Invalid trigger type");
