@@ -51,6 +51,8 @@ tags:
     description: Cho phép người dùng tự code như plugin định nghĩa lại chỉ báo kỹ thuật.
   - name: trigger-condition-controller
     description: Hỗ trợ cảnh báo giá, trigger khi giá đạt các điều kiện.
+  - name: indicator-trigger-condition-controller
+    description: Hỗ trợ cảnh báo giá indicator của người dùng đặt điều kiện.
 paths:
 
   /auth/register:
@@ -616,12 +618,34 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: object
                 properties:
-                  message: 
+                  id: 
                     type: string
-                    example: hehe
+                    example: 67346230a7b11b0001c4000f
+                  alert_id:
+                    type: string
+                    example: 3575de02-8198-4f0e-af32-63ef415c2d2d
+                  username: 
+                    type: string
+                    example: test
+                  symbol: 
+                    type: string
+                    example: BTCUSDT
+                  condition: 
+                    type: string
+                    example: ">="
+                  notification_method: 
+                    type: string
+                    example: email 
+                  spotPriceThreshold: 
+                    type: number
+                    format: double
+                    example: 1000
+                  triggerType: 
+                    type: string
+                    example: spot
         "401":
           description: Chưa đăng nhập
           content:
@@ -1129,7 +1153,22 @@ paths:
           application/json:
             schema: 
               type: object
-              example: hehe
+              properties:
+                name:
+                  type: string
+                  example: sgh 
+                email:
+                  type: string
+                  example: "testapi123@gmail.com"
+                vipRole: 
+                  type: number
+                  example: 3
+                username:
+                  type: string
+                  example: test
+                coin: 
+                  type: number
+                  example: 0
       "401":
           description: Unauthorized
           content:
@@ -1137,6 +1176,322 @@ paths:
               schema: 
                 $ref: "#/components/schemas/CommonFail401"
 
+  /api/changePassword:
+    put:
+      tags:
+        - user-controller
+      summary: Đổi mật khẩu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                newPassword:
+                  type: string
+                  example: hehehee
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 200
+                  message:
+                    type: string
+                    example: Đổi mật khẩu thành công!
+        "400": 
+          description: NullPassword
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Mật khẩu không hợp lệ
+
+  /api/purchaseVip:
+    put:
+      tags:
+        - user-controller
+      summary: Nâng quyền hạn người dùng
+      parameters:
+        - name: vipLevel
+          in: query
+          required: true
+          content:
+            application/json:
+              schema: 
+                type: integer
+                format: int32
+                example: 3
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 200
+                  message:
+                    type: string
+                    example: Thanh toán thành công, đã trừ 40000đ trong tài khoản
+        "404": 
+          description: Lỗi mã vip (khi mà vip <=0 và vip>3)
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Không tồn tại vip này
+
+  /api/deposit:
+    put:
+      tags:
+        - user-controller
+      summary: Donate tiền cho Backend
+      parameters:
+        - name: amount
+          in: query
+          required: true
+          content:
+            application/json:
+              schema: 
+                type: integer
+                format: int32
+                example: 1500000
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 200
+                  message:
+                    type: string
+                    example: Nạp tiền thành công!
+        "400": 
+          description: Số tiền quá ít (Backend sẽ đói :<<)
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Nhập tiền là số nguyên dương lớn hơn 10.000
+
+  /api/changeEmail:
+    put:
+      tags:
+        - user-controller
+      summary: Đổi email của tài khoản
+      parameters:
+        - name: email
+          in: query
+          required: true
+          content:
+            application/json:
+              schema: 
+                type: string
+                example: example@gmail.com
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 200
+                  message:
+                    type: string
+                    example: Đổi email thành công!
+        "404": 
+          description: Not Found
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Không tìm thấy email
+
+  /api/vip3/create:
+    post: 
+      tags:
+        - indicator-trigger-condition-controller
+      summary: tạo điều kiện cảnh báo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                    symbol: 
+                      type: string
+                      example: bitcoin
+                    condition:
+                      type: string
+                      example: ">="
+                    price:
+                      type: number
+                      format: double
+                      example: 156000
+                    indicators:
+                      type: string
+                      example: EMA
+                    notification_method: 
+                      type: string
+                      example: email
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: Indicator created successfully
+        "401":
+          description: Unauthorized
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail401"
+        "403":
+          description: bị chặn
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail403"
+        "500":
+          description: Error 
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Error processing trigger
+
+  /api/vip3/get/alerts:
+    get: 
+      tags:
+        - indicator-trigger-condition-controller
+      summary: nhận thông báo từ server
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+                    example: 67346230a7b11b0001c4000f
+                  alert_id:
+                    type: string
+                    example: 3575de02-8198-4f0e-af32-63ef415c2d2d
+                  username: 
+                    type: string
+                    example: test
+                  symbol: 
+                    type: string
+                    example: bitcoin
+                  condition: 
+                    type: string
+                    example: ">="
+                  notification_method: 
+                    type: string
+                    example: email 
+                  values: 
+                    type: number
+                    format: double
+                    example: 1000
+                  indicators: 
+                    type: string
+                    example: EMA
+        "401":
+          description: Unauthorized
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail401"
+        "403":
+          description: bị chặn
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail403"
+
+  /api/vip3/delete/{symbol}:
+    delete: 
+      tags:
+        - indicator-trigger-condition-controller
+      summary: xóa cảnh báo theo ý người dùng
+      parameters:
+        - name: symbol
+          required: true
+          in: path
+          content:
+            application/json:
+              schema: 
+                    type: string
+                    example: bitcoin
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bitcoin has been deleted successfully.
+        "401":
+          description: Unauthorized
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail401"
+        "403":
+          description: bị chặn
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail403"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/CommonFail404"
 
 components:
   schemas:
